@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build: ./app
+    env_file: ./app/.env
+    restart: always
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+
+  mongodb:
+    image: mongo
+    env_file: ./app/.env
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    networks:
+      - mynetwork
+    volumes:
+      - ./mongo/data:/data/db
+      - ./mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/zinit.js
+
+networks:
+  mynetwork:
