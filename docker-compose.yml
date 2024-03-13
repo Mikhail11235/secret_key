@@ -26,7 +26,7 @@ services:
       - mynetwork
     volumes:
       - ./mongo/data:/data/db
-      - ./mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/zinit.js
+      - ./mongo/init/mongo-init.js:/docker-entrypoint-initdb.d/init.js
 
 networks:
   mynetwork:
